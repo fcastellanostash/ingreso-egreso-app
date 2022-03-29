@@ -10,9 +10,6 @@ export class AppComponent {
   title = 'ingresoEgresoApp';
 
   constructor(private authService : AuthService){
-      this.authService.authStateListener().subscribe(logUser => {
-
-        console.log(logUser)
-      })
+      this.authService.authStateListener();
   }
 }

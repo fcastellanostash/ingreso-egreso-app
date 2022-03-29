@@ -51,10 +51,17 @@
               </div>
 
               <div class="form-group">
+               
+
                 <button class="btn btn-primary submit-btn btn-block"
                         type="submit"
-                        [disabled]="miFormulario.invalid">Crear cuenta
-                </button>
+                        *ngIf="!cargando"
+                        [disabled]="miFormulario.invalid">Crear cuenta</button>
+
+                <button class="btn btn-primary submit-btn btn-block"
+                        type="button"
+                        *ngIf="cargando"
+                        [disabled]="true"><i class="fa fa-spin fa-sync"></i>Espere...</button>
               </div>
               
               <div class="text-block text-center my-3">

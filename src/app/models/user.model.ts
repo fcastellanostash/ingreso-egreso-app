@@ -1,7 +1,10 @@
 
         export class User{
 
-            
+            static isFirebaseUser(firebaseUser:any){
+
+                return new User(firebaseUser.uid,firebaseUser.correo,firebaseUser.nombre);
+            }
             
             constructor(
 

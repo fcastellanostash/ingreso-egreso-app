@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.authservice.logearUsuario(correo,password)
       .then( usuario => {
-        console.log(usuario)
+        console.log("usuario",usuario)
         this.store.dispatch(stopLoading())
 
         // Swal.close();
@@ -80,6 +80,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       })
       .catch( err => {
+        console.log("err",err)
+
         this.store.dispatch(stopLoading())
 
         Swal.fire({

@@ -6,6 +6,7 @@ import { map, Subscription } from 'rxjs';
 import { User } from '../models/user.model';
 import { Store } from '@ngrx/store';
 import { setUser, unSetUser } from '../auth/auth.actions';
+import { unSetIngresoEgreso } from '../ingreso-egreso/ingreso-egreso.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,12 @@ import { setUser, unSetUser } from '../auth/auth.actions';
 export class AuthService {
 
   suscripcion! : Subscription;
+  private _usuario! : User | null;
+
+  public get usuario() {
+    return this._usuario
+  }
+  
 
   constructor(public auth: AngularFireAuth,
               private afs: AngularFirestore,
@@ -22,19 +29,19 @@ export class AuthService {
   authStateListener(){
     this.auth.authState.subscribe(
       fuser => {
-        console.log("Usuario: ",fuser);
         if (fuser) {
           this.suscripcion = this.afs.doc(`${fuser?.uid}/usuario`).valueChanges().subscribe(
           (fireuser =>  {
-            console.log("fireuser",fireuser);
             const user = User.isFirebaseUser(fireuser);
+            this._usuario = user;
             this.store.dispatch(setUser({user}));
           
         }))
         }else{
-
+          this._usuario = null;
           this.suscripcion.unsubscribe();
           this.store.dispatch(unSetUser());
+          this.store.dispatch(unSetIngresoEgreso());
 
         }
        }
@@ -48,7 +55,7 @@ export class AuthService {
       return this.auth.createUserWithEmailAndPassword(correo,password)
         .then( ({user})  =>{
 
-              const newUser = new User(user!.uid, nombre, user!.email!)
+              const newUser = new User(user!.uid, user!.email!, nombre)
               return this.afs.doc(`${user!.uid}/usuario`).set({...newUser});
             }
         )

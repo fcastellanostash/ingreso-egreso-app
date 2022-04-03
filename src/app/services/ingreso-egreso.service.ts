@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreDocument, sortedChanges } from '@angu
 import { IngresoEgreso } from '../models/ingreso-egreso.model';
 import { AuthService } from './auth.service';
 import { map } from 'rxjs';
+import { Partido } from '../ingreso-egreso/estadistica/estadistica.component';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class IngresoEgresoService {
     .add({...ingresoEgreso})
 
   }
+
 
   eliminarIngresoEgrso(itemId? : string){
     const uid = this.authservice.usuario?.uid;

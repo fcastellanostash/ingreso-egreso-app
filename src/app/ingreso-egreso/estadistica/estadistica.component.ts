@@ -1,10 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { AppState } from 'src/app/app.reducer';
+import { AppStateWithIngreso } from '../ingreso-egreso.reducer';
 import { IngresoEgresoService } from 'src/app/services/ingreso-egreso.service';
 import { isLoading, stopLoading } from '../../shared/ui.actions';
 import { ChartData } from 'chart.js';
+
+export class Partido{
+constructor(
+    public equipo1 : string,
+    public equipo2 : string,
+    public resultado : number
+    ){}
+
+}
 
 @Component({
   selector: 'app-estadistica',
@@ -30,7 +39,7 @@ export class EstadisticaComponent implements OnInit, OnDestroy {
     datasets: []
   };
   
-  constructor(private store : Store<AppState>,
+  constructor(private store : Store<AppStateWithIngreso>,
               private is : IngresoEgresoService) { }
 
   ngOnInit(): void {
@@ -61,5 +70,10 @@ export class EstadisticaComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.suscripcion.unsubscribe()
   }
+
+
+
+
+
 
 }
